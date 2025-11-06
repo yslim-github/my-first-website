@@ -4,16 +4,44 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { DatePicker } from "@/components/ui/date-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export default function DemoPage() {
+  const [showNotifications, setShowNotifications] = useState(true);
+  const [showEmails, setShowEmails] = useState(false);
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-4xl space-y-8">
         <div>
           <h1 className="text-4xl font-bold tracking-tight">Component Demo</h1>
           <p className="text-muted-foreground mt-2">
-            Explore our new components: Navigation, Tabs, Alerts, and Toast notifications
+            Explore all shadcn/ui components: Avatars, Badges, Selects, Date Pickers, and more
           </p>
         </div>
 
@@ -241,6 +269,221 @@ export default function DemoPage() {
                 </div>
               </TabsContent>
             </Tabs>
+          </CardContent>
+        </Card>
+
+        {/* Avatar Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Avatar Component</CardTitle>
+            <CardDescription>
+              Display user profile pictures with fallback support
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex flex-col items-center gap-2">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">With Image</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar>
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Fallback</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+                  <AvatarFallback>VC</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Large</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="text-xs">SM</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Small</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Badge Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Badge Component</CardTitle>
+            <CardDescription>
+              Display status indicators and labels with different variants
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              <Badge>Default</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="destructive">Destructive</Badge>
+              <Badge variant="outline">Outline</Badge>
+              <Badge>New ✨</Badge>
+              <Badge variant="secondary">Beta</Badge>
+              <Badge variant="destructive">Deprecated</Badge>
+              <Badge variant="outline">v2.0.0</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Select Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Select Component</CardTitle>
+            <CardDescription>
+              Dropdown selection with search and grouping support
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Choose a framework</label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a framework" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="next">Next.js</SelectItem>
+                    <SelectItem value="react">React</SelectItem>
+                    <SelectItem value="vue">Vue</SelectItem>
+                    <SelectItem value="svelte">Svelte</SelectItem>
+                    <SelectItem value="angular">Angular</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Choose a theme</label>
+                <Select defaultValue="dark">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">Light</SelectItem>
+                    <SelectItem value="dark">Dark</SelectItem>
+                    <SelectItem value="system">System</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* DatePicker Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>DatePicker Component</CardTitle>
+            <CardDescription>
+              Select dates with an interactive calendar popup
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Pick a date</label>
+              <DatePicker />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Popover Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Popover Component</CardTitle>
+            <CardDescription>
+              Display contextual information in a floating popup
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Open Popover</Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Dimensions</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Set the dimensions for the layer.
+                    </p>
+                    <div className="grid gap-2">
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <label className="text-sm">Width</label>
+                        <input
+                          className="col-span-2 h-8 rounded-md border border-input bg-background px-3 text-sm"
+                          defaultValue="100%"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <label className="text-sm">Height</label>
+                        <input
+                          className="col-span-2 h-8 rounded-md border border-input bg-background px-3 text-sm"
+                          defaultValue="25px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Dropdown Menu Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Dropdown Menu Component</CardTitle>
+            <CardDescription>
+              Context menus with checkboxes, radio items, and sub-menus
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">Open Menu</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-destructive">
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">Preferences</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem
+                    checked={showNotifications}
+                    onCheckedChange={setShowNotifications}
+                  >
+                    Push Notifications
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={showEmails}
+                    onCheckedChange={setShowEmails}
+                  >
+                    Email Notifications
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </CardContent>
         </Card>
 
