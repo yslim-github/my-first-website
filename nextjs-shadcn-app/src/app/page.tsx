@@ -8,31 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-4xl space-y-8">
-        <div className="flex items-center justify-between">
-          <div className="text-center flex-1 space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">
-              Next.js + shadcn/ui
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              A modern web application with beautiful UI components
-            </p>
-          </div>
-          <ThemeToggle />
-        </div>
-
-        <div className="flex justify-center gap-4">
-          <Link href="/about">
-            <Button variant="outline">About</Button>
-          </Link>
-          <Link href="/contact">
-            <Button variant="outline">Contact</Button>
-          </Link>
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold tracking-tight">
+            Next.js + shadcn/ui
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            A modern web application with beautiful UI components
+          </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -1,0 +1,78 @@
+---
+title: "Building a Command Palette with ⌘K"
+date: "2024-01-20"
+author: "Jane Smith"
+excerpt: "Create a powerful command palette interface for your application with keyboard shortcuts."
+tags: ["ui", "ux", "keyboard", "productivity"]
+---
+
+# Building a Command Palette with ⌘K
+
+Command palettes have become a staple of modern web applications. They provide quick access to features and navigation through keyboard shortcuts.
+
+## What is a Command Palette?
+
+A command palette is a search-driven interface that allows users to quickly:
+
+- Navigate between pages
+- Execute actions
+- Search content
+- Access features
+
+Popular apps like VS Code, GitHub, and Linear use command palettes extensively.
+
+## Key Features
+
+### 1. Keyboard-First Design
+
+The command palette is triggered with `⌘K` (Mac) or `Ctrl+K` (Windows/Linux). This makes it instantly accessible without reaching for the mouse.
+
+### 2. Fuzzy Search
+
+Users can type partial matches and the palette will filter results intelligently:
+
+- "about" → "About Page"
+- "cont" → "Contact Us"
+- "dm" → "Demo"
+
+### 3. Grouped Results
+
+Results can be organized into categories:
+
+- **Navigation**: Pages and routes
+- **Actions**: Commands and features
+- **Search**: Content results
+
+## Implementation
+
+Here's a basic structure for a command palette:
+
+```typescript
+interface Command {
+  id: string;
+  label: string;
+  category: string;
+  action: () => void;
+}
+```
+
+### Using cmdk
+
+We use the `cmdk` library which provides:
+
+- Excellent keyboard navigation
+- Fuzzy search
+- Customizable styling
+- Accessibility features
+
+## Best Practices
+
+1. **Keep it Fast**: Results should appear instantly
+2. **Clear Labels**: Use descriptive, scannable labels
+3. **Keyboard Hints**: Show keyboard shortcuts
+4. **Recent Items**: Show recently accessed items
+5. **Context Aware**: Show relevant commands based on current page
+
+## Conclusion
+
+A well-implemented command palette can significantly improve user productivity and satisfaction. It's a feature that power users will love and appreciate.
