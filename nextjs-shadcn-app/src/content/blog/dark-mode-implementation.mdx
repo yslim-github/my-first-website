@@ -1,0 +1,138 @@
+---
+title: "Implementing Dark Mode with next-themes"
+excerpt: "A comprehensive guide to adding dark mode support to your Next.js application using next-themes and Tailwind CSS."
+author: "Sarah Johnson"
+date: "2024-02-01"
+tags: ["Next.js", "Dark Mode", "Tailwind CSS", "UX"]
+---
+
+# Implementing Dark Mode with next-themes
+
+Dark mode has become an essential feature in modern web applications. Users expect the ability to switch between light and dark themes based on their preferences or system settings. In this guide, we'll explore how to implement dark mode in a Next.js application using `next-themes`.
+
+## Why Dark Mode?
+
+Before diving into implementation, let's understand why dark mode is important:
+
+- **User Preference**: Many users prefer dark interfaces, especially in low-light environments
+- **Reduced Eye Strain**: Dark mode can reduce eye strain during extended usage
+- **Battery Savings**: On OLED screens, dark mode can save battery life
+- **Modern UX**: Dark mode is now an expected feature in modern applications
+
+## Setting Up next-themes
+
+First, install the required package:
+
+```bash
+npm install next-themes
+```
+
+## Creating the Theme Provider
+
+Create a theme provider component that wraps your application:
+
+```tsx
+'use client'
+
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { type ThemeProviderProps } from 'next-themes/dist/types'
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+```
+
+## Adding the Provider to Your Layout
+
+Wrap your application with the ThemeProvider in your root layout:
+
+```tsx
+import { ThemeProvider } from '@/components/theme-provider'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+## Creating a Theme Toggle Button
+
+Build a component that allows users to switch themes:
+
+```tsx
+'use client'
+
+import { useTheme } from 'next-themes'
+import { Button } from '@/components/ui/button'
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+    >
+      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    </Button>
+  )
+}
+```
+
+## Tailwind CSS Configuration
+
+Make sure your Tailwind config supports dark mode:
+
+```js
+module.exports = {
+  darkMode: 'class',
+  // ... rest of config
+}
+```
+
+## Styling for Dark Mode
+
+Use Tailwind's dark mode variant:
+
+```tsx
+<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <h1>This adapts to theme!</h1>
+</div>
+```
+
+## Best Practices
+
+1. **System Preference**: Default to system preference with `enableSystem`
+2. **Prevent Flash**: Use `suppressHydrationWarning` on the html tag
+3. **Smooth Transitions**: Disable transitions on change to prevent jarring animations
+4. **Test Both Modes**: Always test your UI in both light and dark modes
+5. **Contrast Ratios**: Ensure sufficient contrast in both themes for accessibility
+
+## Common Pitfalls
+
+- **Forgetting suppressHydrationWarning**: This causes hydration mismatch errors
+- **Hard-coded Colors**: Avoid absolute color values; use Tailwind's color system
+- **Icon States**: Ensure icons properly indicate the current theme
+- **Third-party Components**: Some components may not support dark mode out of the box
+
+## Conclusion
+
+Implementing dark mode with next-themes is straightforward and greatly enhances user experience. By following these patterns, you can provide a seamless theme switching experience in your Next.js application.
+
+Remember to test your application thoroughly in both themes and consider accessibility when choosing your color schemes.
+
+Happy coding! 🌓

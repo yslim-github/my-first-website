@@ -28,12 +28,24 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useState } from "react";
 
 export default function DemoPage() {
   const [showNotifications, setShowNotifications] = useState(true);
   const [showEmails, setShowEmails] = useState(false);
+  const [switchEnabled, setSwitchEnabled] = useState(false);
+  const [sliderValue, setSliderValue] = useState([50]);
+  const [progress, setProgress] = useState(60);
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -484,6 +496,243 @@ export default function DemoPage() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Tooltip Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Tooltip Component</CardTitle>
+            <CardDescription>
+              Show helpful hints on hover
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TooltipProvider>
+              <div className="flex gap-4 flex-wrap">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline">Hover me</Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>This is a helpful tooltip!</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button>More info</Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Tooltips provide additional context</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
+          </CardContent>
+        </Card>
+
+        {/* Switch Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Switch Component</CardTitle>
+            <CardDescription>
+              Toggle between enabled and disabled states
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <Switch id="airplane-mode" checked={switchEnabled} onCheckedChange={setSwitchEnabled} />
+                <Label htmlFor="airplane-mode">Airplane Mode</Label>
+              </div>
+              <span className="text-sm text-muted-foreground">
+                {switchEnabled ? "Enabled" : "Disabled"}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Slider Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Slider Component</CardTitle>
+            <CardDescription>
+              Select a value from a range
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label>Volume</Label>
+                <span className="text-sm text-muted-foreground">{sliderValue[0]}%</span>
+              </div>
+              <Slider
+                value={sliderValue}
+                onValueChange={setSliderValue}
+                max={100}
+                step={1}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Progress Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Progress Component</CardTitle>
+            <CardDescription>
+              Display progress of a task
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Uploading...</span>
+                <span>{progress}%</span>
+              </div>
+              <Progress value={progress} />
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={() => setProgress(Math.min(100, progress + 10))}>
+                +10%
+              </Button>
+              <Button size="sm" onClick={() => setProgress(Math.max(0, progress - 10))}>
+                -10%
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setProgress(0)}>
+                Reset
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Separator Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Separator Component</CardTitle>
+            <CardDescription>
+              Visually separate content sections
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div>
+              <div className="space-y-1">
+                <h4 className="text-sm font-medium leading-none">shadcn/ui</h4>
+                <p className="text-sm text-muted-foreground">
+                  Beautifully designed components built with Radix UI and Tailwind CSS.
+                </p>
+              </div>
+              <Separator className="my-4" />
+              <div className="flex h-5 items-center space-x-4 text-sm">
+                <div>Blog</div>
+                <Separator orientation="vertical" />
+                <div>Docs</div>
+                <Separator orientation="vertical" />
+                <div>Source</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Sheet Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Sheet Component</CardTitle>
+            <CardDescription>
+              Slide-in panels from any side of the screen
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2 flex-wrap">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline">Open Right</Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Sheet Panel</SheetTitle>
+                    <SheetDescription>
+                      This is a slide-in panel from the right side.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="mt-4 space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Sheets are great for settings panels, filters, or additional information.
+                    </p>
+                    <Button className="w-full">Save Changes</Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline">Open Left</Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                  <SheetHeader>
+                    <SheetTitle>Left Panel</SheetTitle>
+                    <SheetDescription>
+                      Slide-in from the left side.
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ScrollArea Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>ScrollArea Component</CardTitle>
+            <CardDescription>
+              Custom styled scrollable areas
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-72 w-full rounded-md border p-4">
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium leading-none">Tags</h4>
+                {Array.from({ length: 50 }).map((_, i) => (
+                  <div key={i} className="text-sm">
+                    Tag {i + 1}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        {/* Accordion Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Accordion Component</CardTitle>
+            <CardDescription>
+              Collapsible content sections
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It adheres to the WAI-ARIA design pattern and uses semantic HTML.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It comes with default styles that matches the other components' aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It's animated by default, but you can disable it if you prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </CardContent>
         </Card>
 
