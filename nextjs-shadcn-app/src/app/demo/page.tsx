@@ -37,6 +37,10 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Label } from "@/components/ui/label";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -46,6 +50,9 @@ export default function DemoPage() {
   const [switchEnabled, setSwitchEnabled] = useState(false);
   const [sliderValue, setSliderValue] = useState([50]);
   const [progress, setProgress] = useState(60);
+  const [radioValue, setRadioValue] = useState("option-one");
+  const [togglePressed, setTogglePressed] = useState(false);
+  const [alignment, setAlignment] = useState("center");
 
   return (
     <div className="min-h-screen bg-background p-8">
@@ -733,6 +740,181 @@ export default function DemoPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+          </CardContent>
+        </Card>
+
+        {/* HoverCard Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>HoverCard Component</CardTitle>
+            <CardDescription>
+              Display rich content on hover
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="link">@nextjs</Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="flex justify-between space-x-4">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/vercel.png" />
+                      <AvatarFallback>NX</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">@nextjs</h4>
+                      <p className="text-sm">
+                        The React Framework – created and maintained by @vercel.
+                      </p>
+                      <div className="flex items-center pt-2">
+                        <span className="text-xs text-muted-foreground">
+                          Joined December 2021
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="link">@shadcn</Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold">shadcn/ui</h4>
+                    <p className="text-sm">
+                      Beautifully designed components built with Radix UI and Tailwind CSS.
+                    </p>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* RadioGroup Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>RadioGroup Component</CardTitle>
+            <CardDescription>
+              Select a single option from multiple choices
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RadioGroup value={radioValue} onValueChange={setRadioValue}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-one" id="option-one" />
+                <Label htmlFor="option-one">Default</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-two" id="option-two" />
+                <Label htmlFor="option-two">Comfortable</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-three" id="option-three" />
+                <Label htmlFor="option-three">Compact</Label>
+              </div>
+            </RadioGroup>
+            <p className="text-sm text-muted-foreground mt-4">
+              Selected: <span className="font-medium">{radioValue}</span>
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Toggle Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Toggle Component</CardTitle>
+            <CardDescription>
+              Toggle button with on/off states
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap items-center">
+              <div className="space-y-2">
+                <Label>Default Toggle</Label>
+                <div className="flex gap-2">
+                  <Toggle pressed={togglePressed} onPressedChange={setTogglePressed}>
+                    <span className="font-bold">B</span>
+                  </Toggle>
+                  <Toggle>
+                    <span className="italic">I</span>
+                  </Toggle>
+                  <Toggle>
+                    <span className="underline">U</span>
+                  </Toggle>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Outline Toggle</Label>
+                <div className="flex gap-2">
+                  <Toggle variant="outline">
+                    <span className="font-bold">B</span>
+                  </Toggle>
+                  <Toggle variant="outline">
+                    <span className="italic">I</span>
+                  </Toggle>
+                  <Toggle variant="outline">
+                    <span className="underline">U</span>
+                  </Toggle>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Toggle is {togglePressed ? "pressed" : "not pressed"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ToggleGroup Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>ToggleGroup Component</CardTitle>
+            <CardDescription>
+              Group of toggle buttons with single or multiple selection
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Text Alignment (Single Select)</Label>
+                <ToggleGroup type="single" value={alignment} onValueChange={(value) => value && setAlignment(value)}>
+                  <ToggleGroupItem value="left" aria-label="Toggle left">
+                    Left
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="center" aria-label="Toggle center">
+                    Center
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="right" aria-label="Toggle right">
+                    Right
+                  </ToggleGroupItem>
+                </ToggleGroup>
+                <p className="text-sm text-muted-foreground">
+                  Selected alignment: <span className="font-medium">{alignment}</span>
+                </p>
+              </div>
+              <Separator />
+              <div className="space-y-2">
+                <Label>Font Style (Multiple Select)</Label>
+                <ToggleGroup type="multiple">
+                  <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                    <span className="font-bold">B</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="italic" aria-label="Toggle italic">
+                    <span className="italic">I</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="underline" aria-label="Toggle underline">
+                    <span className="underline">U</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+                    <span className="line-through">S</span>
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
           </CardContent>
         </Card>
 

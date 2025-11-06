@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { CommandMenu } from "@/components/command-menu";
 
@@ -36,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased flex flex-col min-h-screen">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -44,7 +45,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navigation />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
+          <Footer />
           <Toaster />
           <CommandMenu />
         </ThemeProvider>
