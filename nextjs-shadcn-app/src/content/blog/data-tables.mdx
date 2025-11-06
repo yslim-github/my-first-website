@@ -1,0 +1,108 @@
+---
+title: "Data Tables with Sorting and Filtering"
+date: "2024-01-25"
+author: "John Doe"
+excerpt: "Build powerful data tables with TanStack Table for managing large datasets."
+tags: ["data", "tables", "tanstack", "react"]
+---
+
+# Data Tables with Sorting and Filtering
+
+Data tables are essential for displaying and managing large amounts of information. In this post, we'll explore how to build feature-rich data tables.
+
+## Why TanStack Table?
+
+TanStack Table (formerly React Table) is the go-to solution for building tables in React. It provides:
+
+- **Headless UI**: You control the markup and styling
+- **Feature-Rich**: Sorting, filtering, pagination, and more
+- **Performance**: Optimized for large datasets
+- **TypeScript**: Full type safety
+
+## Essential Features
+
+### 1. Sorting
+
+Users can sort data by clicking column headers:
+
+- Single column sorting
+- Multi-column sorting
+- Custom sort functions
+- Ascending/descending indicators
+
+### 2. Filtering
+
+Global and column-specific filters help users find data:
+
+- Text search
+- Date ranges
+- Select dropdowns
+- Custom filters
+
+### 3. Pagination
+
+Handle large datasets efficiently:
+
+- Page size selection
+- Jump to page
+- First/last page navigation
+- Row count display
+
+### 4. Row Selection
+
+Allow users to select rows for bulk actions:
+
+- Select individual rows
+- Select all rows
+- Indeterminate state
+- Action toolbar
+
+## Code Example
+
+Here's a basic table setup:
+
+```typescript
+const columns = [
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+];
+
+const table = useReactTable({
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+});
+```
+
+## Styling with shadcn/ui
+
+The Table component from shadcn/ui provides beautiful default styles:
+
+- Responsive design
+- Hover states
+- Selected rows
+- Loading states
+- Empty states
+
+## Performance Tips
+
+1. **Virtualization**: Use virtual scrolling for 1000+ rows
+2. **Memoization**: Memoize expensive computations
+3. **Debouncing**: Debounce filter inputs
+4. **Pagination**: Limit rows per page
+
+## Conclusion
+
+Building great data tables requires careful consideration of user needs. TanStack Table provides the flexibility to create exactly what you need.

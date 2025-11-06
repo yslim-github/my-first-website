@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/blog", label: "Blog" },
+  { href: "/data", label: "Data" },
   { href: "/demo", label: "Demo" },
 ];
 
@@ -43,6 +44,24 @@ export function Navigation() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden md:flex gap-2"
+            onClick={() => {
+              const event = new KeyboardEvent("keydown", {
+                key: "k",
+                metaKey: true,
+                ctrlKey: true,
+              });
+              document.dispatchEvent(event);
+            }}
+          >
+            <span>Search</span>
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+              ⌘K
+            </kbd>
+          </Button>
           <ThemeToggle />
           <div className="md:hidden">
             <Button variant="ghost" size="icon">

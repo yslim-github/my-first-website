@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import { CommandMenu } from "@/components/command-menu";
 
 export const metadata: Metadata = {
   title: "Next.js + shadcn/ui",
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Navigation />
           <main>{children}</main>
           <Toaster />
+          <CommandMenu />
         </ThemeProvider>
       </body>
     </html>
