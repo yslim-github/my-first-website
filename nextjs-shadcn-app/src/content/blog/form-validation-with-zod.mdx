@@ -1,0 +1,268 @@
+---
+title: "Type-Safe Form Validation with Zod and React Hook Form"
+excerpt: "Learn how to build robust, type-safe forms using Zod schemas and React Hook Form in your Next.js applications."
+author: "Mike Chen"
+date: "2024-02-05"
+tags: ["Forms", "TypeScript", "Zod", "React Hook Form", "Validation"]
+---
+
+# Type-Safe Form Validation with Zod and React Hook Form
+
+Forms are a critical part of web applications, but handling validation can be complex and error-prone. In this guide, we'll explore how to build type-safe, validated forms using Zod and React Hook Form.
+
+## Why Zod + React Hook Form?
+
+This combination offers several advantages:
+
+- **Type Safety**: Full TypeScript support with automatic type inference
+- **Schema Validation**: Define validation rules in a single, reusable schema
+- **Performance**: Minimal re-renders with React Hook Form's optimizations
+- **DX**: Excellent developer experience with clear error messages
+- **Integration**: Works seamlessly with shadcn/ui components
+
+## Installation
+
+Install the required packages:
+
+```bash
+npm install react-hook-form @hookform/resolvers zod
+```
+
+## Creating a Zod Schema
+
+Start by defining your form schema with Zod:
+
+```typescript
+import { z } from 'zod'
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: 'Please enter a valid email address.',
+  }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters.',
+  }),
+  confirmPassword: z.string(),
+  age: z.number().min(18, {
+    message: 'You must be at least 18 years old.',
+  }).optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+})
+
+type FormValues = z.infer<typeof formSchema>
+```
+
+## Setting Up React Hook Form
+
+Initialize the form with zodResolver:
+
+```typescript
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+export function MyForm() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  })
+
+  function onSubmit(values: FormValues) {
+    // values is fully typed!
+    console.log(values)
+  }
+
+  return (
+    // Form JSX here
+  )
+}
+```
+
+## Building the Form UI
+
+Use shadcn/ui Form components for consistency:
+
+```tsx
+<Form {...form}>
+  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <FormField
+      control={form.control}
+      name="email"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Email</FormLabel>
+          <FormControl>
+            <Input type="email" placeholder="you@example.com" {...field} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+
+    <FormField
+      control={form.control}
+      name="password"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Password</FormLabel>
+          <FormControl>
+            <Input type="password" {...field} />
+          </FormControl>
+          <FormDescription>
+            At least 8 characters long
+          </FormDescription>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+
+    <Button type="submit">Submit</Button>
+  </form>
+</Form>
+```
+
+## Advanced Validation Patterns
+
+### Conditional Validation
+
+```typescript
+const schema = z.object({
+  country: z.string(),
+  zipCode: z.string().optional(),
+}).refine(
+  (data) => {
+    if (data.country === 'US') {
+      return /^\d{5}(-\d{4})?$/.test(data.zipCode || '')
+    }
+    return true
+  },
+  {
+    message: 'Invalid US ZIP code',
+    path: ['zipCode'],
+  }
+)
+```
+
+### Custom Validation Functions
+
+```typescript
+const passwordSchema = z.string()
+  .min(8)
+  .refine((val) => /[A-Z]/.test(val), {
+    message: 'Password must contain at least one uppercase letter',
+  })
+  .refine((val) => /[0-9]/.test(val), {
+    message: 'Password must contain at least one number',
+  })
+```
+
+### Async Validation
+
+```typescript
+const usernameSchema = z.string()
+  .refine(
+    async (username) => {
+      const response = await fetch(`/api/check-username?username=${username}`)
+      const { available } = await response.json()
+      return available
+    },
+    { message: 'Username is already taken' }
+  )
+```
+
+## Error Handling
+
+Display errors with proper styling:
+
+```tsx
+<FormMessage className="text-sm font-medium text-destructive" />
+```
+
+Access errors programmatically:
+
+```typescript
+const emailError = form.formState.errors.email
+if (emailError) {
+  console.log(emailError.message)
+}
+```
+
+## Form State Management
+
+React Hook Form provides useful state information:
+
+```typescript
+const {
+  isSubmitting,
+  isValid,
+  isDirty,
+  errors
+} = form.formState
+
+<Button type="submit" disabled={isSubmitting || !isValid}>
+  {isSubmitting ? 'Submitting...' : 'Submit'}
+</Button>
+```
+
+## Best Practices
+
+1. **Reuse Schemas**: Extract common validation patterns
+2. **Clear Error Messages**: Write user-friendly error messages
+3. **Progressive Enhancement**: Show validation on blur, not on every keystroke
+4. **Loading States**: Disable submit button during submission
+5. **Success Feedback**: Show success messages after submission
+
+## Common Patterns
+
+### Select Fields
+
+```typescript
+const schema = z.object({
+  role: z.enum(['admin', 'user', 'guest'], {
+    required_error: 'Please select a role',
+  }),
+})
+```
+
+### File Uploads
+
+```typescript
+const schema = z.object({
+  avatar: z
+    .instanceof(FileList)
+    .refine((files) => files.length > 0, 'Image is required')
+    .refine(
+      (files) => files[0]?.size <= 5000000,
+      'Max file size is 5MB'
+    ),
+})
+```
+
+### Date Validation
+
+```typescript
+const schema = z.object({
+  birthDate: z.date()
+    .max(new Date(), 'Birth date cannot be in the future')
+    .refine(
+      (date) => {
+        const age = new Date().getFullYear() - date.getFullYear()
+        return age >= 18
+      },
+      'You must be at least 18 years old'
+    ),
+})
+```
+
+## Conclusion
+
+Combining Zod with React Hook Form provides a powerful, type-safe solution for form validation in Next.js applications. The schema-based approach makes validation logic clear, reusable, and maintainable.
+
+By following these patterns, you can build robust forms that provide excellent user experience while maintaining code quality and type safety.
+
+Happy form building! 📝

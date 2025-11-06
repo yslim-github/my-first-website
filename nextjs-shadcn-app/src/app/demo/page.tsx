@@ -4,16 +4,63 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { DatePicker } from "@/components/ui/date-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Label } from "@/components/ui/label";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export default function DemoPage() {
+  const [showNotifications, setShowNotifications] = useState(true);
+  const [showEmails, setShowEmails] = useState(false);
+  const [switchEnabled, setSwitchEnabled] = useState(false);
+  const [sliderValue, setSliderValue] = useState([50]);
+  const [progress, setProgress] = useState(60);
+  const [radioValue, setRadioValue] = useState("option-one");
+  const [togglePressed, setTogglePressed] = useState(false);
+  const [alignment, setAlignment] = useState("center");
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="mx-auto max-w-4xl space-y-8">
         <div>
           <h1 className="text-4xl font-bold tracking-tight">Component Demo</h1>
           <p className="text-muted-foreground mt-2">
-            Explore our new components: Navigation, Tabs, Alerts, and Toast notifications
+            Explore all shadcn/ui components: Avatars, Badges, Selects, Date Pickers, and more
           </p>
         </div>
 
@@ -241,6 +288,633 @@ export default function DemoPage() {
                 </div>
               </TabsContent>
             </Tabs>
+          </CardContent>
+        </Card>
+
+        {/* Avatar Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Avatar Component</CardTitle>
+            <CardDescription>
+              Display user profile pictures with fallback support
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex flex-col items-center gap-2">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">With Image</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar>
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Fallback</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+                  <AvatarFallback>VC</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Large</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="text-xs">SM</AvatarFallback>
+                </Avatar>
+                <span className="text-xs text-muted-foreground">Small</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Badge Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Badge Component</CardTitle>
+            <CardDescription>
+              Display status indicators and labels with different variants
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-3">
+              <Badge>Default</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="destructive">Destructive</Badge>
+              <Badge variant="outline">Outline</Badge>
+              <Badge>New ✨</Badge>
+              <Badge variant="secondary">Beta</Badge>
+              <Badge variant="destructive">Deprecated</Badge>
+              <Badge variant="outline">v2.0.0</Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Select Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Select Component</CardTitle>
+            <CardDescription>
+              Dropdown selection with search and grouping support
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Choose a framework</label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a framework" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="next">Next.js</SelectItem>
+                    <SelectItem value="react">React</SelectItem>
+                    <SelectItem value="vue">Vue</SelectItem>
+                    <SelectItem value="svelte">Svelte</SelectItem>
+                    <SelectItem value="angular">Angular</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Choose a theme</label>
+                <Select defaultValue="dark">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="light">Light</SelectItem>
+                    <SelectItem value="dark">Dark</SelectItem>
+                    <SelectItem value="system">System</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* DatePicker Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>DatePicker Component</CardTitle>
+            <CardDescription>
+              Select dates with an interactive calendar popup
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Pick a date</label>
+              <DatePicker />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Popover Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Popover Component</CardTitle>
+            <CardDescription>
+              Display contextual information in a floating popup
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Open Popover</Button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Dimensions</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Set the dimensions for the layer.
+                    </p>
+                    <div className="grid gap-2">
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <label className="text-sm">Width</label>
+                        <input
+                          className="col-span-2 h-8 rounded-md border border-input bg-background px-3 text-sm"
+                          defaultValue="100%"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 items-center gap-4">
+                        <label className="text-sm">Height</label>
+                        <input
+                          className="col-span-2 h-8 rounded-md border border-input bg-background px-3 text-sm"
+                          defaultValue="25px"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Dropdown Menu Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Dropdown Menu Component</CardTitle>
+            <CardDescription>
+              Context menus with checkboxes, radio items, and sub-menus
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">Open Menu</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-destructive">
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">Preferences</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem
+                    checked={showNotifications}
+                    onCheckedChange={setShowNotifications}
+                  >
+                    Push Notifications
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={showEmails}
+                    onCheckedChange={setShowEmails}
+                  >
+                    Email Notifications
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Tooltip Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Tooltip Component</CardTitle>
+            <CardDescription>
+              Show helpful hints on hover
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TooltipProvider>
+              <div className="flex gap-4 flex-wrap">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline">Hover me</Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>This is a helpful tooltip!</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button>More info</Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Tooltips provide additional context</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
+          </CardContent>
+        </Card>
+
+        {/* Switch Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Switch Component</CardTitle>
+            <CardDescription>
+              Toggle between enabled and disabled states
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <Switch id="airplane-mode" checked={switchEnabled} onCheckedChange={setSwitchEnabled} />
+                <Label htmlFor="airplane-mode">Airplane Mode</Label>
+              </div>
+              <span className="text-sm text-muted-foreground">
+                {switchEnabled ? "Enabled" : "Disabled"}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Slider Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Slider Component</CardTitle>
+            <CardDescription>
+              Select a value from a range
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label>Volume</Label>
+                <span className="text-sm text-muted-foreground">{sliderValue[0]}%</span>
+              </div>
+              <Slider
+                value={sliderValue}
+                onValueChange={setSliderValue}
+                max={100}
+                step={1}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Progress Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Progress Component</CardTitle>
+            <CardDescription>
+              Display progress of a task
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Uploading...</span>
+                <span>{progress}%</span>
+              </div>
+              <Progress value={progress} />
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" onClick={() => setProgress(Math.min(100, progress + 10))}>
+                +10%
+              </Button>
+              <Button size="sm" onClick={() => setProgress(Math.max(0, progress - 10))}>
+                -10%
+              </Button>
+              <Button size="sm" variant="outline" onClick={() => setProgress(0)}>
+                Reset
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Separator Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Separator Component</CardTitle>
+            <CardDescription>
+              Visually separate content sections
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div>
+              <div className="space-y-1">
+                <h4 className="text-sm font-medium leading-none">shadcn/ui</h4>
+                <p className="text-sm text-muted-foreground">
+                  Beautifully designed components built with Radix UI and Tailwind CSS.
+                </p>
+              </div>
+              <Separator className="my-4" />
+              <div className="flex h-5 items-center space-x-4 text-sm">
+                <div>Blog</div>
+                <Separator orientation="vertical" />
+                <div>Docs</div>
+                <Separator orientation="vertical" />
+                <div>Source</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Sheet Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Sheet Component</CardTitle>
+            <CardDescription>
+              Slide-in panels from any side of the screen
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2 flex-wrap">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline">Open Right</Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Sheet Panel</SheetTitle>
+                    <SheetDescription>
+                      This is a slide-in panel from the right side.
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="mt-4 space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Sheets are great for settings panels, filters, or additional information.
+                    </p>
+                    <Button className="w-full">Save Changes</Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline">Open Left</Button>
+                </SheetTrigger>
+                <SheetContent side="left">
+                  <SheetHeader>
+                    <SheetTitle>Left Panel</SheetTitle>
+                    <SheetDescription>
+                      Slide-in from the left side.
+                    </SheetDescription>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ScrollArea Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>ScrollArea Component</CardTitle>
+            <CardDescription>
+              Custom styled scrollable areas
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-72 w-full rounded-md border p-4">
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium leading-none">Tags</h4>
+                {Array.from({ length: 50 }).map((_, i) => (
+                  <div key={i} className="text-sm">
+                    Tag {i + 1}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        {/* Accordion Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Accordion Component</CardTitle>
+            <CardDescription>
+              Collapsible content sections
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It adheres to the WAI-ARIA design pattern and uses semantic HTML.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It comes with default styles that matches the other components' aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It's animated by default, but you can disable it if you prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CardContent>
+        </Card>
+
+        {/* HoverCard Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>HoverCard Component</CardTitle>
+            <CardDescription>
+              Display rich content on hover
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap">
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="link">@nextjs</Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="flex justify-between space-x-4">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/vercel.png" />
+                      <AvatarFallback>NX</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">@nextjs</h4>
+                      <p className="text-sm">
+                        The React Framework – created and maintained by @vercel.
+                      </p>
+                      <div className="flex items-center pt-2">
+                        <span className="text-xs text-muted-foreground">
+                          Joined December 2021
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Button variant="link">@shadcn</Button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold">shadcn/ui</h4>
+                    <p className="text-sm">
+                      Beautifully designed components built with Radix UI and Tailwind CSS.
+                    </p>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* RadioGroup Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>RadioGroup Component</CardTitle>
+            <CardDescription>
+              Select a single option from multiple choices
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RadioGroup value={radioValue} onValueChange={setRadioValue}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-one" id="option-one" />
+                <Label htmlFor="option-one">Default</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-two" id="option-two" />
+                <Label htmlFor="option-two">Comfortable</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-three" id="option-three" />
+                <Label htmlFor="option-three">Compact</Label>
+              </div>
+            </RadioGroup>
+            <p className="text-sm text-muted-foreground mt-4">
+              Selected: <span className="font-medium">{radioValue}</span>
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Toggle Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Toggle Component</CardTitle>
+            <CardDescription>
+              Toggle button with on/off states
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 flex-wrap items-center">
+              <div className="space-y-2">
+                <Label>Default Toggle</Label>
+                <div className="flex gap-2">
+                  <Toggle pressed={togglePressed} onPressedChange={setTogglePressed}>
+                    <span className="font-bold">B</span>
+                  </Toggle>
+                  <Toggle>
+                    <span className="italic">I</span>
+                  </Toggle>
+                  <Toggle>
+                    <span className="underline">U</span>
+                  </Toggle>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Outline Toggle</Label>
+                <div className="flex gap-2">
+                  <Toggle variant="outline">
+                    <span className="font-bold">B</span>
+                  </Toggle>
+                  <Toggle variant="outline">
+                    <span className="italic">I</span>
+                  </Toggle>
+                  <Toggle variant="outline">
+                    <span className="underline">U</span>
+                  </Toggle>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Toggle is {togglePressed ? "pressed" : "not pressed"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ToggleGroup Demo Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>ToggleGroup Component</CardTitle>
+            <CardDescription>
+              Group of toggle buttons with single or multiple selection
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Text Alignment (Single Select)</Label>
+                <ToggleGroup type="single" value={alignment} onValueChange={(value) => value && setAlignment(value)}>
+                  <ToggleGroupItem value="left" aria-label="Toggle left">
+                    Left
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="center" aria-label="Toggle center">
+                    Center
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="right" aria-label="Toggle right">
+                    Right
+                  </ToggleGroupItem>
+                </ToggleGroup>
+                <p className="text-sm text-muted-foreground">
+                  Selected alignment: <span className="font-medium">{alignment}</span>
+                </p>
+              </div>
+              <Separator />
+              <div className="space-y-2">
+                <Label>Font Style (Multiple Select)</Label>
+                <ToggleGroup type="multiple">
+                  <ToggleGroupItem value="bold" aria-label="Toggle bold">
+                    <span className="font-bold">B</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="italic" aria-label="Toggle italic">
+                    <span className="italic">I</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="underline" aria-label="Toggle underline">
+                    <span className="underline">U</span>
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+                    <span className="line-through">S</span>
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
           </CardContent>
         </Card>
 

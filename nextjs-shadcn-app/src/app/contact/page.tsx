@@ -31,6 +31,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -39,12 +48,16 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
+  topic: z.string().min(1, {
+    message: "Please select a topic.",
+  }),
   subject: z.string().min(5, {
     message: "Subject must be at least 5 characters.",
   }),
   message: z.string().min(10, {
     message: "Message must be at least 10 characters.",
   }),
+  newsletter: z.boolean().optional(),
 });
 
 export default function ContactPage() {
@@ -56,8 +69,10 @@ export default function ContactPage() {
     defaultValues: {
       name: "",
       email: "",
+      topic: "",
       subject: "",
       message: "",
+      newsletter: false,
     },
   });
 
@@ -122,6 +137,34 @@ export default function ContactPage() {
 
                 <FormField
                   control={form.control}
+                  name="topic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Topic</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a topic" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="general">General Inquiry</SelectItem>
+                          <SelectItem value="support">Technical Support</SelectItem>
+                          <SelectItem value="sales">Sales & Pricing</SelectItem>
+                          <SelectItem value="partnership">Partnership</SelectItem>
+                          <SelectItem value="feedback">Feedback</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Choose the topic that best describes your inquiry.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
@@ -147,6 +190,29 @@ export default function ContactPage() {
                         Please provide as much detail as possible.
                       </FormDescription>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="newsletter"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                      <div className="space-y-0.5">
+                        <FormLabel className="text-base">
+                          Newsletter Subscription
+                        </FormLabel>
+                        <FormDescription>
+                          Receive updates, news, and exclusive offers via email.
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -217,10 +283,16 @@ export default function ContactPage() {
                 <strong>Email:</strong> {submittedData.email}
               </p>
               <p className="text-sm">
+                <strong>Topic:</strong> {submittedData.topic}
+              </p>
+              <p className="text-sm">
                 <strong>Subject:</strong> {submittedData.subject}
               </p>
               <p className="text-sm">
                 <strong>Message:</strong> {submittedData.message}
+              </p>
+              <p className="text-sm">
+                <strong>Newsletter:</strong> {submittedData.newsletter ? 'Yes' : 'No'}
               </p>
             </div>
           )}

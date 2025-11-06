@@ -26,6 +26,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 
 export type User = {
@@ -109,6 +117,36 @@ export default function DataPage() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const exportToCSV = () => {
+    const selectedRows = table.getFilteredSelectedRowModel().rows;
+    const rowsToExport = selectedRows.length > 0 ? selectedRows : table.getFilteredRowModel().rows;
+
+    const headers = ["Name", "Email", "Status", "Role", "Created At"];
+    const csvData = rowsToExport.map((row) => {
+      const user = row.original;
+      return [
+        user.name,
+        user.email,
+        user.status,
+        user.role,
+        user.createdAt,
+      ].join(",");
+    });
+
+    const csv = [headers.join(","), ...csvData].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `users-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    toast.success("Export Successful", {
+      description: `Exported ${rowsToExport.length} users to CSV`,
+    });
+  };
 
   const columns: ColumnDef<User>[] = [
     {
@@ -244,7 +282,7 @@ export default function DataPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
                 <Input
                   placeholder="Filter by name..."
                   value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -254,6 +292,41 @@ export default function DataPage() {
                   className="max-w-sm"
                 />
                 <div className="flex gap-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        Columns ▼
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {table
+                        .getAllColumns()
+                        .filter((column) => column.getCanHide())
+                        .map((column) => {
+                          return (
+                            <DropdownMenuCheckboxItem
+                              key={column.id}
+                              className="capitalize"
+                              checked={column.getIsVisible()}
+                              onCheckedChange={(value) =>
+                                column.toggleVisibility(!!value)
+                              }
+                            >
+                              {column.id}
+                            </DropdownMenuCheckboxItem>
+                          );
+                        })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={exportToCSV}
+                  >
+                    Export CSV
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"

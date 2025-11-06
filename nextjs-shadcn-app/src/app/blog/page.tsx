@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Tutorials, guides, and insights about web development, Next.js, React, TypeScript, and modern UI components.",
+};
 
 export default function BlogPage() {
   const posts = getAllPosts();

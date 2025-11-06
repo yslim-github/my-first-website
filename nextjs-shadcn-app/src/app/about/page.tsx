@@ -1,5 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 export default function AboutPage() {
@@ -94,7 +97,138 @@ export default function AboutPage() {
                 <span className="text-primary">▸</span>
                 <span>Radix UI primitives</span>
               </li>
+              <li className="flex items-center gap-2">
+                <span className="text-primary">▸</span>
+                <span>TanStack Table</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-primary">▸</span>
+                <span>Recharts for data visualization</span>
+              </li>
             </ul>
+          </CardContent>
+        </Card>
+
+        <Separator />
+
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight mb-6">Our Team</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <Avatar className="h-20 w-20">
+                    <AvatarImage src="https://github.com/shadcn.png" alt="Sarah Johnson" />
+                    <AvatarFallback>SJ</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">Sarah Johnson</h3>
+                    <p className="text-sm text-muted-foreground mb-2">Lead Developer</p>
+                    <div className="flex gap-2 justify-center flex-wrap">
+                      <Badge variant="secondary">React</Badge>
+                      <Badge variant="secondary">Next.js</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Full-stack developer with 8+ years of experience building scalable web applications.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <Avatar className="h-20 w-20">
+                    <AvatarImage src="https://github.com/vercel.png" alt="Mike Chen" />
+                    <AvatarFallback>MC</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">Mike Chen</h3>
+                    <p className="text-sm text-muted-foreground mb-2">UI/UX Designer</p>
+                    <div className="flex gap-2 justify-center flex-wrap">
+                      <Badge variant="secondary">Figma</Badge>
+                      <Badge variant="secondary">Design</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Creative designer focused on user-centered design and modern aesthetics.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <Avatar className="h-20 w-20">
+                    <AvatarFallback>EP</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="font-semibold text-lg">Emily Park</h3>
+                    <p className="text-sm text-muted-foreground mb-2">DevOps Engineer</p>
+                    <div className="flex gap-2 justify-center flex-wrap">
+                      <Badge variant="secondary">AWS</Badge>
+                      <Badge variant="secondary">Docker</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Infrastructure specialist ensuring high availability and performance.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Separator />
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Our Values</CardTitle>
+            <CardDescription>
+              The principles that guide our work
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <span className="text-xl">💡</span>
+                  Innovation
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  We embrace new technologies and approaches to solve problems in creative ways.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <span className="text-xl">🤝</span>
+                  Collaboration
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  Working together as a team and with our clients to achieve the best results.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <span className="text-xl">🎯</span>
+                  Quality
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  Delivering high-quality code and design that stands the test of time.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <span className="text-xl">📚</span>
+                  Learning
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  Continuous improvement and staying current with industry trends.
+                </p>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
